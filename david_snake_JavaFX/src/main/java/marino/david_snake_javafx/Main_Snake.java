@@ -14,11 +14,16 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
+import static marino.david_snake_javafx.CreateNewFood.newFood;
+
 public class Main_Snake extends Application{
-    static int speed = 10;
-    static String foodcolor;
+    static int speed = 5;
+    static int speedTemp = 5;
+    static String foodcolor= "white";
+    static String colorTemp = "white";
     static int width = 20;
     static int height = 20;
     static int foodX = 0;
@@ -56,7 +61,7 @@ public class Main_Snake extends Application{
                 }
             }.start();
             Scene scene = new Scene(root, width * cornersize, height * cornersize);
-
+            //Input Listener
             scene.addEventFilter(KeyEvent.KEY_PRESSED, key -> {
                 if (key.getCode() == KeyCode.W) {
                     direction = Dir.up;
@@ -93,6 +98,7 @@ public class Main_Snake extends Application{
             snake.get(i).x = snake.get(i-1).x;
             snake.get(i).y = snake.get(i-1).y;
         }
+        //boundary end condition
         switch(direction) {
             case up:
                 snake.get(0).y--;
@@ -119,13 +125,21 @@ public class Main_Snake extends Application{
                 }
                 break;
         }
+        //food hit detection
         if (foodX == snake.get(0).x && foodY == snake.get(0).y) {
-            Fruit fruit = fruitFactory.getFruit("SPEED");
+            Fruit fruit = fruitFactory.getFruit(randFruit());
+
+            speed = speedTemp;
+            foodcolor = colorTemp;
+
             snake.add(new Corner(-1, -1));
             newFood();
+
+
+            speedTemp = fruit.getSpeed();
             foodcolor = fruit.getColor();
-            speed = fruit.getSpeed();
         }
+        //self death condition
         for (int i = 1; i < snake.size(); i++) {
             if (snake.get(0).x == snake.get(i).x && snake.get(0).y == snake.get(i).y) {
                 gameOver = true;
@@ -138,7 +152,7 @@ public class Main_Snake extends Application{
         gc.setFont(new Font("",30));
         gc.fillText("Score:" + (speed - 6), 10, 30);
         Color cc = Color.WHITE;
-        switch(foodcolor) {
+        switch(foodcolor.toLowerCase()) {
             case "purple":
                 cc = Color.PURPLE;
                 break;
@@ -150,27 +164,22 @@ public class Main_Snake extends Application{
         gc.fillOval(foodX * cornersize, foodY * cornersize, cornersize, cornersize);
 
         for (Corner c : snake) {
-            gc.setFill(Color.LIGHTGREEN);
-            gc.fillRect(c.x * cornersize, c.y * cornersize, cornersize - 1, cornersize - 1);
-            gc.fillRect(c.x * cornersize, c.y * cornersize, cornersize - 1, cornersize - 1);
             gc.setFill(Color.GREEN);
             gc.fillRect(c.x * cornersize, c.y * cornersize, cornersize - 2, cornersize - 2);
         }
     }
 
-    public static void newFood() {
-        start:
-        while (true) {
-            foodX = rand.nextInt(width);
-            foodY = rand.nextInt(height);
-
-            for (Corner c : snake) {
-                if(c.x == foodX && c.y == foodY) {
-                    continue start;
-                }
-            }
-            break;
+    public static String randFruit() {
+        int randNum = rand.nextInt(2);
+        switch (randNum) {
+            case 0:
+                return "SPEED";
+            case 1:
+                return "SLOW";
+            case 2:
+                return "SPEED";
         }
+        return null;
     }
 
     public static void main(String[] args) {launch(args);}

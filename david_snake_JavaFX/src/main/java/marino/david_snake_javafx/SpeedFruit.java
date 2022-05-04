@@ -13,7 +13,7 @@ public class SpeedFruit implements Fruit {
         posX = 0;
         posY = 0;
         color = "green";
-        speed = 10;
+        speed = 15;
     }
 
     //getters

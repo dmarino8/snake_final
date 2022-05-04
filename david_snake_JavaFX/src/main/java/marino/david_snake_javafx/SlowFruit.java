@@ -12,8 +12,8 @@ public class SlowFruit implements Fruit {
     SlowFruit () {
         posX = 0;
         posY = 0;
-        color = "green";
-        speed = 10;
+        color = "purple";
+        speed = 5;
     }
 
     //getters
