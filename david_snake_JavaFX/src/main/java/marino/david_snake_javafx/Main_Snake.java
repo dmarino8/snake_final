@@ -17,8 +17,8 @@ import java.util.List;
 import java.util.Random;
 
 public class Main_Snake extends Application{
-    static int speed = 5;
-    static int foodcolor = 0;
+    static int speed = 10;
+    static String foodcolor;
     static int width = 20;
     static int height = 20;
     static int foodX = 0;
@@ -28,19 +28,7 @@ public class Main_Snake extends Application{
     static Dir direction = Dir.left;
     static boolean gameOver = false;
     static Random rand = new Random();
-
-    public enum Dir {
-        left, right, up, down
-    }
-
-    public static class Corner {
-        int x;
-        int y;
-        public Corner(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-    }
+    static FruitFactory fruitFactory = new FruitFactory();
 
     public void start(Stage primaryStage) {
         try {
@@ -62,7 +50,6 @@ public class Main_Snake extends Application{
                         return;
                     }
                     if (now - lastTick > 1000000000 / speed) {
-                        System.out.println((now - lastTick) / speed);
                         lastTick = now;
                         tick(gc);
                     }
@@ -133,8 +120,11 @@ public class Main_Snake extends Application{
                 break;
         }
         if (foodX == snake.get(0).x && foodY == snake.get(0).y) {
+            Fruit fruit = fruitFactory.getFruit("SPEED");
             snake.add(new Corner(-1, -1));
             newFood();
+            foodcolor = fruit.getColor();
+            speed = fruit.getSpeed();
         }
         for (int i = 1; i < snake.size(); i++) {
             if (snake.get(0).x == snake.get(i).x && snake.get(0).y == snake.get(i).y) {
@@ -148,22 +138,12 @@ public class Main_Snake extends Application{
         gc.setFont(new Font("",30));
         gc.fillText("Score:" + (speed - 6), 10, 30);
         Color cc = Color.WHITE;
-
         switch(foodcolor) {
-            case 0:
+            case "purple":
                 cc = Color.PURPLE;
                 break;
-            case 1:
-                cc = Color.LIGHTBLUE;
-                break;
-            case 2:
-                cc = Color.YELLOW;
-                break;
-            case 3:
-                cc = Color.PINK;
-                break;
-            case 4:
-                cc = Color.ORANGE;
+            case "green":
+                cc = Color.GREEN;
                 break;
         }
         gc.setFill(cc);
@@ -185,15 +165,14 @@ public class Main_Snake extends Application{
             foodY = rand.nextInt(height);
 
             for (Corner c : snake) {
-                if (c.x == foodX && c.y == foodY) {
+                if(c.x == foodX && c.y == foodY) {
                     continue start;
                 }
             }
-            foodcolor = rand.nextInt(5);
-            speed++;
             break;
         }
     }
+
     public static void main(String[] args) {launch(args);}
 
 }
