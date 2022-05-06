@@ -1,5 +1,5 @@
 package marino.david_snake_javafx.enemys;
-
+//s
 public class BasicEnemy implements Enemy {
     public String name;
     public String type;

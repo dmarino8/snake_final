@@ -8,7 +8,7 @@ public class SlowFruit implements Fruit {
     public String color;
     public int speed;
 
-    //constructors
+    //constructors//s
     SlowFruit () {
         posX = 0;
         posY = 0;

@@ -93,7 +93,7 @@ public class Main_Snake extends Application {
     }
 
     public static void tick(GraphicsContext gc) {
-        count++;
+        count++;//s
         if (gameOver) {
             gc.setFill(Color.RED);
             gc.setFont(new Font("", 50));

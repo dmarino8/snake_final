@@ -1,5 +1,5 @@
 package marino.david_snake_javafx.enemys;
-
+//s
 public class EnemyFactory {
     public Enemy getEnemy(String enemyType) {
         if (enemyType == null) {
