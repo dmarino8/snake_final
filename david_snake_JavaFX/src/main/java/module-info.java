@@ -12,4 +12,6 @@ module marino.david_snake_javafx {
 
     opens marino.david_snake_javafx to javafx.fxml;
     exports marino.david_snake_javafx;
+    exports marino.david_snake_javafx.fruits;
+    opens marino.david_snake_javafx.fruits to javafx.fxml;
 }

@@ -1,4 +1,4 @@
-package marino.david_snake_javafx;
+package marino.david_snake_javafx.fruits;
 
 public class SpeedFruit implements Fruit {
 
@@ -13,7 +13,7 @@ public class SpeedFruit implements Fruit {
         posX = 0;
         posY = 0;
         color = "green";
-        speed = 15;
+        speed = 7;
     }
 
     //getters

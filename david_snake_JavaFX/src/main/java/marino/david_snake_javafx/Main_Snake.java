@@ -1,5 +1,5 @@
 package marino.david_snake_javafx;
-import javafx.animation.Animation;
+
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -11,18 +11,21 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import marino.david_snake_javafx.enemys.Enemy;
+import marino.david_snake_javafx.enemys.EnemyFactory;
+import marino.david_snake_javafx.fruits.Fruit;
+import marino.david_snake_javafx.fruits.FruitFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Random;
 
 import static marino.david_snake_javafx.CreateNewFood.newFood;
 
-public class Main_Snake extends Application{
-    static int speed = 5;
+public class Main_Snake extends Application {
+    static int speed = 0;
     static int speedTemp = 5;
-    static String foodcolor= "white";
+    static String foodcolor = "white";
     static String colorTemp = "white";
     static int width = 20;
     static int height = 20;
@@ -34,6 +37,9 @@ public class Main_Snake extends Application{
     static boolean gameOver = false;
     static Random rand = new Random();
     static FruitFactory fruitFactory = new FruitFactory();
+    static EnemyFactory factory = new EnemyFactory();
+    static Enemy enemy = factory.getEnemy("BASIC");
+    static int count = 0;
 
     public void start(Stage primaryStage) {
         try {
@@ -50,11 +56,10 @@ public class Main_Snake extends Application{
                 public void handle(long now) {
                     if (lastTick == 0) {
                         lastTick = now;
-
                         tick(gc);
                         return;
                     }
-                    if (now - lastTick > 1000000000 / speed) {
+                    if (now - lastTick > 1000000000 / 1000000000) { //fix this so it's not weird
                         lastTick = now;
                         tick(gc);
                     }
@@ -77,8 +82,8 @@ public class Main_Snake extends Application{
                 }
             });
 
-            snake.add(new Corner(width/2, height/2));
-            snake.add(new Corner(width/2,height/2));
+            snake.add(new Corner(width / 2, height / 2));
+            snake.add(new Corner(width / 2, height / 2));
             primaryStage.setScene(scene);
             primaryStage.setTitle("SNAKE GAME");
             primaryStage.show();
@@ -88,43 +93,49 @@ public class Main_Snake extends Application{
     }
 
     public static void tick(GraphicsContext gc) {
+        count++;
         if (gameOver) {
             gc.setFill(Color.RED);
             gc.setFont(new Font("", 50));
             gc.fillText("GAME OVER", 100, 250);
             return;
         }
-        for ( int i = snake.size() - 1; i >= 1; i--) {
-            snake.get(i).x = snake.get(i-1).x;
-            snake.get(i).y = snake.get(i-1).y;
+        //set snake image snake speed
+        if (count % (10-speed) == 0) {
+        for (int i = snake.size() - 1; i >= 1; i--) {
+            snake.get(i).x = snake.get(i - 1).x;
+            snake.get(i).y = snake.get(i - 1).y;
         }
+
         //boundary end condition
-        switch(direction) {
-            case up:
-                snake.get(0).y--;
-                if (snake.get(0).y > height) {
-                    gameOver = true;
-                }
-                break;
-            case down:
-                snake.get(0).y++;
-                if (snake.get(0).y > height) {
-                    gameOver = true;
-                }
-                break;
-            case left:
-                snake.get(0).x--;
-                if (snake.get(0).x < 0) {
-                    gameOver = true;
-                }
-                break;
-            case right:
-                snake.get(0).x++;
-                if(snake.get(0).x > width) {
-                    gameOver = true;
-                }
-                break;
+            switch (direction) {
+                case up:
+                    snake.get(0).y--;
+                    if (snake.get(0).y > height) {
+                        gameOver = true;
+                    }
+                    break;
+                case down:
+                    snake.get(0).y++;
+                    if (snake.get(0).y > height) {
+                        gameOver = true;
+                    }
+                    break;
+                case left:
+                    snake.get(0).x--;
+                    if (snake.get(0).x < 0) {
+                        gameOver = true;
+                    }
+                    break;
+                case right:
+                    snake.get(0).x++;
+                    if (snake.get(0).x > width) {
+                        gameOver = true;
+                    }
+                    break;
+            }
         }
+
         //food hit detection
         if (foodX == snake.get(0).x && foodY == snake.get(0).y) {
             Fruit fruit = fruitFactory.getFruit(randFruit());
@@ -142,17 +153,21 @@ public class Main_Snake extends Application{
         //self death condition
         for (int i = 1; i < snake.size(); i++) {
             if (snake.get(0).x == snake.get(i).x && snake.get(0).y == snake.get(i).y) {
-                gameOver = true;
+                gameOver = false;
             }
         }
         gc.setFill(Color.BLACK);
         gc.fillRect(0, 0, width * cornersize, height * cornersize);
 
+
+        //set score
         gc.setFill(Color.WHITE);
-        gc.setFont(new Font("",30));
+        gc.setFont(new Font("", 30));
         gc.fillText("Score:" + (speed - 6), 10, 30);
+
+        //set food color and image
         Color cc = Color.WHITE;
-        switch(foodcolor.toLowerCase()) {
+        switch (foodcolor.toLowerCase()) {
             case "purple":
                 cc = Color.PURPLE;
                 break;
@@ -163,10 +178,22 @@ public class Main_Snake extends Application{
         gc.setFill(cc);
         gc.fillOval(foodX * cornersize, foodY * cornersize, cornersize, cornersize);
 
+        //set snake image
         for (Corner c : snake) {
             gc.setFill(Color.GREEN);
             gc.fillRect(c.x * cornersize, c.y * cornersize, cornersize - 2, cornersize - 2);
         }
+
+        //set enemy image
+        gc.setFill(Color.RED);
+        gc.fillRect(enemy.getX(), enemy.getY(), 10, 10);
+
+        //enemy speed
+        if (count % (10 - enemy.getSpeed()) == 0) {
+            enemy.update();
+        }
+
+
     }
 
     public static String randFruit() {
@@ -182,6 +209,8 @@ public class Main_Snake extends Application{
         return null;
     }
 
-    public static void main(String[] args) {launch(args);}
+    public static void main(String[] args) {
+        launch(args);
+    }
 
 }

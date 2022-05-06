@@ -1,4 +1,4 @@
-package marino.david_snake_javafx;
+package marino.david_snake_javafx.fruits;
 
 public class SlowFruit implements Fruit {
 
@@ -13,7 +13,7 @@ public class SlowFruit implements Fruit {
         posX = 0;
         posY = 0;
         color = "purple";
-        speed = 5;
+        speed = 3;
     }
 
     //getters

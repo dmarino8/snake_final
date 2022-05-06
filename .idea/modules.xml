@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/david_snake_JavaFX/david_snake_JavaFX.iml" filepath="$PROJECT_DIR$/david_snake_JavaFX/david_snake_JavaFX.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/snake_final.iml" filepath="$PROJECT_DIR$/.idea/snake_final.iml" />
+    </modules>
+  </component>
+</project>
