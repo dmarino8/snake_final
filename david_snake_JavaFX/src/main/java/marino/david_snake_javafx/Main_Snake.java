@@ -150,6 +150,11 @@ public class Main_Snake extends Application {
             speedTemp = fruit.getSpeed();
             foodcolor = fruit.getColor();
         }
+        //enemy hit detection
+        System.out.println(enemy.getX() + ", " + enemy.getY());
+        if (enemy.getX() == snake.get(0).x && enemy.getY() == snake.get(0).y) {
+            System.out.println("you hit the enemy");
+        }
         //self death condition
         for (int i = 1; i < snake.size(); i++) {
             if (snake.get(0).x == snake.get(i).x && snake.get(0).y == snake.get(i).y) {
