@@ -164,6 +164,10 @@ public class Main_Snake extends Application {
         gc.setFill(Color.BLACK);
         gc.fillRect(0, 0, width * cornersize, height * cornersize);
 
+        //enemy hit condition
+        if (enemy.hitbox(enemy.getX(), enemy.getY(), enemy.getX() + enemy.getWidth(), enemy.getY() + enemy.getHeight(), snake.get(0).x, snake.get(0).y, snake.get(0).x + width, snake.get(0).y + height) == true) { //int ax, int ay, int bx, int by, int cx, int cy, int dx, int dy
+            System.out.println("Hit");
+        }
 
         //set score
         gc.setFill(Color.WHITE);
@@ -191,7 +195,7 @@ public class Main_Snake extends Application {
 
         //set enemy image
         gc.setFill(Color.RED);
-        gc.fillRect(enemy.getX(), enemy.getY(), 10, 10);
+        gc.fillRect(enemy.getX(), enemy.getY(), enemy.getWidth(), enemy.getHeight());
 
         //enemy speed
         if (count % (10 - enemy.getSpeed()) == 0) {

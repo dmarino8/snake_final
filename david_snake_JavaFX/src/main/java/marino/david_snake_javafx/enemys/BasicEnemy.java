@@ -1,4 +1,5 @@
 package marino.david_snake_javafx.enemys;
+
 //s
 public class BasicEnemy implements Enemy {
     public String name;
@@ -8,13 +9,17 @@ public class BasicEnemy implements Enemy {
     public int y;
     public String dirX;
     public String dirY;
+    public int width;
+    public int height;
 
     BasicEnemy() {
         name = "BasicEnemy";
         type = "zigzag";
-        speed =7;
+        speed = 7;
         x = 20;
         y = 20;
+        width = 20;
+        height = 20;
         dirX = "right";
         dirY = "down";
     }
@@ -45,16 +50,25 @@ public class BasicEnemy implements Enemy {
     }
 
     @Override
+    public int getWidth() {
+        return width;
+    }
+
+    @Override
+    public int getHeight() {
+        return height;
+    }
+
+    @Override
     public void update() {
-        if (x >= 490) {
+        if (x >= (500-width)) {
             dirX = "left";
-            System.out.println("this got hit");
         } else if (x <= 0) {
             dirX = "right";
         }
         if (y <= 0) {
             dirY = "down";
-        } else if (y >= 490) {
+        } else if (y >= (500 - height)) {
             dirY = "up";
         }
 
@@ -82,5 +96,10 @@ public class BasicEnemy implements Enemy {
 
     public void setSpeed(int speed) {
         this.speed = speed;
+    }
+
+    @Override
+    public boolean hitbox(int ax, int ay, int bx, int by, int cx, int cy, int dx, int dy){
+        return ((ax > dx)||(bx < cx)||(ay > dy)||(by < cy));
     }
 }
