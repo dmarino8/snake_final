@@ -1,11 +1,11 @@
 package marino.david_snake_javafx;
 
 public class Corner {
-    int x;
-    int y;
+    double x;
+    double y;
 
 
-    public Corner(int x, int y) {
+    public Corner(double x, double y) {
         this.x = x;
         this.y = y;
     }
