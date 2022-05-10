@@ -22,8 +22,8 @@ public class BasicEnemy implements Enemy {
         speed = 7;
         x = 100;
         y = 100;
-        width = 20;
-        height = 20;
+        width = 10;
+        height = 10;
         dirX = "right";
         dirY = "down";
     }
