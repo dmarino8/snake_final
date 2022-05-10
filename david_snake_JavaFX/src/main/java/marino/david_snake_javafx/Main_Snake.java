@@ -2,6 +2,7 @@ package marino.david_snake_javafx;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.geometry.Bounds;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -9,6 +10,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import marino.david_snake_javafx.enemys.Enemy;
@@ -160,14 +162,16 @@ public class Main_Snake extends Application {
         gc.fillRect(0, 0, width * cornersize, height * cornersize);
 
         //enemy hit condition
-        if (enemy.hitbox(enemy.getX(), enemy.getY(), enemy.getX() + enemy.getWidth(), enemy.getY() + enemy.getHeight(), snake.get(0).x, snake.get(0).y, snake.get(0).x + width, snake.get(0).y + height) == true) { //int ax, int ay, int bx, int by, int cx, int cy, int dx, int dy
+        System.out.println(count);
+        if (enemy.hitbox(snake.get(0).x * 25, snake.get(0).y * 25, enemy.getX(), enemy.getY())) { //int ax, int ay, int bx, int by, int cx, int cy, int dx, int dy
             System.out.println("Hit");
+            //System.exit(1);
         }
 
         //set score
         gc.setFill(Color.WHITE);
         gc.setFont(new Font("", 30));
-        gc.fillText("Score:" + (speed - 6), 10, 30);
+        gc.fillText("Score:" + count, 10, 30);
 
         //set food color and image
         Color cc = Color.WHITE;

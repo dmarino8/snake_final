@@ -9,6 +9,6 @@ public interface Enemy {
     public int getWidth();
     public int getHeight();
     public void update();
-    public boolean hitbox(int ax, int ay, int bx, int by, int cx, int cy, int dx, int dy);
+    public boolean hitbox(int snakeX, int snakeY, int enemyX, int enemyY);
 
 }
