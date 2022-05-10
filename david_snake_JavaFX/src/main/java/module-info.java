@@ -9,6 +9,7 @@ module marino.david_snake_javafx {
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
+    requires java.sql;
 
     opens marino.david_snake_javafx to javafx.fxml;
     exports marino.david_snake_javafx;

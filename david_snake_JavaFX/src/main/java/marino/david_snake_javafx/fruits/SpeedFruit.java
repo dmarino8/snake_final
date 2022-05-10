@@ -7,6 +7,7 @@ public class SpeedFruit implements Fruit {
     public int posY;
     public String color;
     public int speed;
+    public String name;
 
     //constructors
     SpeedFruit () {
@@ -14,6 +15,7 @@ public class SpeedFruit implements Fruit {
         posY = 0;
         color = "green";
         speed = 7;//s
+        name = "speed";
     }
 
     //getters
@@ -31,6 +33,8 @@ public class SpeedFruit implements Fruit {
     public int getSpeed() {
         return speed;
     }
+    @Override
+    public String getName() { return name;}
 
     //setters
     public void setPosX(int posX) {

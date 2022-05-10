@@ -13,6 +13,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import marino.david_snake_javafx.database.DatabaseConnection;
 import marino.david_snake_javafx.enemys.Enemy;
 import marino.david_snake_javafx.enemys.EnemyFactory;
 import marino.david_snake_javafx.fruits.Fruit;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static marino.david_snake_javafx.Collision.hitbox;
 import static marino.david_snake_javafx.CreateNewFood.newFood;
 
 public class Main_Snake extends Application {
@@ -42,6 +44,9 @@ public class Main_Snake extends Application {
     static EnemyFactory factory = new EnemyFactory();
     static Enemy enemy = factory.getEnemy("BASIC");
     static int count = 0;
+    static int score = 0;
+    static int life = 0;
+    static DatabaseConnection conn = new DatabaseConnection();
 
     public void start(Stage primaryStage) {
         try {
@@ -61,7 +66,7 @@ public class Main_Snake extends Application {
                         tick(gc);
                         return;
                     }
-                    if (now - lastTick > 1000000000 / 1000000000) { //fix this so it's not weird
+                    if (now - lastTick > 1) { //fix this so it's not weird
                         lastTick = now;
                         tick(gc);
                     }
@@ -70,16 +75,16 @@ public class Main_Snake extends Application {
             Scene scene = new Scene(root, width * cornersize, height * cornersize);
             //Input Listener
             scene.addEventFilter(KeyEvent.KEY_PRESSED, key -> {
-                if (key.getCode() == KeyCode.W) {
+                if (key.getCode() == KeyCode.UP) {
                     direction = Dir.up;
                 }
-                if (key.getCode() == KeyCode.A) {
+                if (key.getCode() == KeyCode.LEFT) {
                     direction = Dir.left;
                 }
-                if (key.getCode() == KeyCode.S) {
+                if (key.getCode() == KeyCode.DOWN) {
                     direction = Dir.down;
                 }
-                if (key.getCode() == KeyCode.D) {
+                if (key.getCode() == KeyCode.RIGHT) {
                     direction = Dir.right;
                 }
             });
@@ -95,7 +100,7 @@ public class Main_Snake extends Application {
     }
 
     public static void tick(GraphicsContext gc) {
-        count++;//s
+        count++;
         if (gameOver) {
             gc.setFill(Color.RED);
             gc.setFont(new Font("", 50));
@@ -113,7 +118,7 @@ public class Main_Snake extends Application {
             switch (direction) {
                 case up:
                     snake.get(0).y--;
-                    if (snake.get(0).y > height) {
+                    if (snake.get(0).y < 0) {
                         gameOver = true;
                     }
                     break;
@@ -144,8 +149,15 @@ public class Main_Snake extends Application {
 
             speed = speedTemp;
             foodcolor = colorTemp;
+            if (fruit.getName().equalsIgnoreCase("inverse")) {
 
-            snake.add(new Corner(-1, -1));
+            }
+            if (snake.size() == 5) {
+                life++;
+            } else {
+                snake.add(new Corner(-1, -1));
+            }
+
             newFood();
 
 
@@ -162,16 +174,15 @@ public class Main_Snake extends Application {
         gc.fillRect(0, 0, width * cornersize, height * cornersize);
 
         //enemy hit condition
-        System.out.println(count);
-        if (enemy.hitbox(snake.get(0).x * 25, snake.get(0).y * 25, enemy.getX(), enemy.getY())) { //int ax, int ay, int bx, int by, int cx, int cy, int dx, int dy
-            System.out.println("Hit");
-            //System.exit(1);
+        if (hitbox(snake.get(0).x * 25, snake.get(0).y * 25, enemy.getX(), enemy.getY())) {
+            score++;
+            //conn.connect();
         }
 
         //set score
         gc.setFill(Color.WHITE);
         gc.setFont(new Font("", 30));
-        gc.fillText("Score:" + count, 10, 30);
+        gc.fillText("Score:" + score, 10, 30);
 
         //set food color and image
         Color cc = Color.WHITE;
@@ -181,6 +192,9 @@ public class Main_Snake extends Application {
                 break;
             case "green":
                 cc = Color.GREEN;
+                break;
+            case "yellow":
+                cc = Color.YELLOW;
                 break;
         }
         gc.setFill(cc);

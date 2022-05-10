@@ -1,6 +1,6 @@
 package marino.david_snake_javafx.fruits;
 
-public class SlowFruit implements Fruit {
+public class InverseFruit implements Fruit {
 
     //properties
     public int posX;
@@ -10,12 +10,12 @@ public class SlowFruit implements Fruit {
     public String name;
 
     //constructors//s
-    SlowFruit () {
+    InverseFruit () {
         posX = 0;
         posY = 0;
-        color = "purple";
-        speed = 3;
-        name = "slow";
+        color = "yellow";
+        speed = 5;
+        name = "inverse";
     }
 
     //getters
@@ -49,7 +49,5 @@ public class SlowFruit implements Fruit {
     public void setSpeed(int speed) {
         this.speed = speed;
     }
-
-
 
 }

@@ -4,7 +4,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.shape.Rectangle;
 
 //s
-public class BasicEnemy implements Enemy {
+public class CircleEnemy implements Enemy {
     public String name;
     public String type;
     public int speed;
@@ -16,14 +16,14 @@ public class BasicEnemy implements Enemy {
     public int height;
     public Rectangle2D bound;
 
-    BasicEnemy() {
-        name = "BasicEnemy";
-        type = "zigzag";
-        speed = 7;
+    CircleEnemy() {
+        name = "CircleEnemy";
+        type = "circle";
+        speed = 3;
         x = 100;
         y = 100;
-        width = 20;
-        height = 20;
+        width = 50;
+        height = 50;
         dirX = "right";
         dirY = "down";
     }
