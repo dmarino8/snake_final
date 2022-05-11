@@ -30,14 +30,14 @@ public class BasicSnake {
     }
 
     public void update() {
-        direction();
+        for (int i = parts.size() - 1; i >= 0; i--) {
+            direction();
+            parts.set(i, (new Corner(xPos, yPos)));
+            xPos+=(xDir * velocity);
+            yPos += (yDir * velocity);
+            parts.set(i, (new Corner(xPos, yPos)));
+        }
 
-        parts.set(1, (new Corner(xPos, yPos)));
-
-        xPos+=(xDir * velocity);
-        yPos += (yDir * velocity);
-
-        parts.set(0, (new Corner(xPos / 2, yPos / 2)));
 
     }
 

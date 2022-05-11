@@ -17,7 +17,6 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import marino.david_snake_javafx.database.DatabaseConnection;
 import marino.david_snake_javafx.enemys.Enemy;
 import marino.david_snake_javafx.enemys.EnemyFactory;
 import marino.david_snake_javafx.fruits.Fruit;
@@ -124,11 +123,14 @@ public class Main_Snake extends Application {
 
         //snake movement
         gc.setFill(Color.YELLOW);
-        gc.fillRect(snake.parts.get(1).x, snake.parts.get(1).y, 25-2, 25-2);
+        gc.fillRect(snake.parts.get(1).x, snake.parts.get(1).y, 25, 25);
         gc.setFill(Color.RED);
-        gc.fillRect(snake.parts.get(0).x, snake.parts.get(0).y, 25-2, 25-2);
+        gc.fillRect(snake.parts.get(0).x, snake.parts.get(0).y, 25, 25);
 
-        snake.update();
+        if (count % 2 == 0) {
+            snake.update();
+        }
+
         //food hit detection
 
         //enemy hit condition
